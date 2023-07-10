@@ -1,0 +1,19 @@
+version: '3'
+services:
+  webapi:
+    build:
+      context: ./WebApiSection
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - database
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=localhost\\SQLEXPRESS01;Database=HahnSoftwareOrderDb;Integrated Security=True;
+  database:
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
+      - MSSQL_DATABASE=HahnSoftwareOrderDb
+      - MSSQL_TCP_PORT=1433
