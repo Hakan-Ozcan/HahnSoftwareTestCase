@@ -1,5 +1,6 @@
 using ApplicationLayer.Abstract;
 using ApplicationLayer.Concrete;
+using DomainLayer.Entities;
 using InfrastructureLayer.Abstract;
 using InfrastructureLayer.Concrete;
 using InfrastructureLayer.SqlContext;
@@ -12,7 +13,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<Context>(options =>
    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -24,10 +33,10 @@ builder.Services.AddScoped(typeof(IProductService), typeof(ProductManager));
 
 
 
-//// ----------------DAL------------------ /
-builder.Services.AddScoped(typeof(IEmployeeDal), typeof(EmployeeRepository));
+////// ----------------DAL------------------ /
 builder.Services.AddScoped(typeof(IOrderDal), typeof(OrdersRepository));
 builder.Services.AddScoped(typeof(IProductDal), typeof(ProductRepository));
+builder.Services.AddScoped(typeof(IEmployeeDal), typeof(EmployeeRepository));
 
 
 
@@ -39,7 +48,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

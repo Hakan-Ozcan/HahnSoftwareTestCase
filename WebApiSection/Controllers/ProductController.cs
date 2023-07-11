@@ -32,12 +32,12 @@ namespace WebApiSection.Controllers
             {
                 try
                 {
-                    _logger.LogInformation("Retrieving order data with ID {OrderId}.", id);
+                    _logger.LogInformation("Retrieving product data with ID {ProductId}.", id);
                     return _productmanager.ProductGetByID(id);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error retrieving order data with ID {OrderId}.", id);
+                    _logger.LogError(ex, "Error retrieving product data with ID {ProductId}.", id);
                     return BadRequest(ex.Message);
                 }
             }
@@ -46,7 +46,7 @@ namespace WebApiSection.Controllers
         public ActionResult<bool> Post([FromBody] Product employee)
         {
             _productmanager.ProductAdd(employee);
-            _logger.LogInformation("Submitted order data {@Product}", employee);
+            _logger.LogInformation("Submitted product data {ProductId}", employee);
             return Ok(employee);
 
         }
@@ -55,14 +55,14 @@ namespace WebApiSection.Controllers
         {
             _productmanager.ProductUpdate(employee);
             var updatedData = _productmanager.ProductGetList();
-            _logger.LogInformation("Updated order data with ID {OrderId}.", id);
+            _logger.LogInformation("Updated product data with ID {ProductId}.", id);
             return Ok(updatedData);
         }
         [HttpDelete("{id}")]
         public ActionResult<List<Product>> Delete(short id)
         {
             _productmanager.ProductDeleteByID(id);
-            _logger.LogInformation("Deleted order data with ID {OrderId}.", id);
+            _logger.LogInformation("Deleted product data with ID {ProductId}.", id);
             return Ok();
         }
 

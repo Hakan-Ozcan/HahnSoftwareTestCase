@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace InfrastructureLayer.Concrete
 {
-    public class EmployeeRepository : IRepositoryDal<Employee>
+    public class EmployeeRepository : IEmployeeDal
     {
         private readonly Context _context;
         public EmployeeRepository(Context context)
@@ -22,19 +22,16 @@ namespace InfrastructureLayer.Concrete
             _context.SaveChanges();
         }
 
-     
+
 
         public void DeleteByID(int id)
         {
-            var order = _context.Set<Employee>().SingleOrDefault(x => x.EmployeeId == id);
-            if (order != null)
-            {
-                _context.Set<Employee>().Remove(order);
-                _context.SaveChanges();
-            }
+            _context.Remove(id);
+            _context.SaveChanges();
+
         }
 
-     
+
 
         public IEnumerable<Employee> GetAll()
         {

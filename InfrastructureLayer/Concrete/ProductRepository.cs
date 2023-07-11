@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace InfrastructureLayer.Concrete
 {
-    public class ProductRepository : IRepositoryDal<Product>
+    public class ProductRepository : IProductDal
     {
         private readonly Context _context;
         public ProductRepository(Context context)
